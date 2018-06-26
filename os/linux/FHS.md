@@ -1,0 +1,41 @@
+# FHS
+
+- bin
+- boot
+- dev
+- etc
+- lib
+- media
+- mnt
+- opt
+- proc
+- sbin
+- srv
+- sys
+- tmp
+- usr
+  - bin
+  - include
+  - lib
+  - local
+    - bin
+    - etc
+    - games
+    - include
+    - lib
+    - man
+    - sbin
+    - share
+    - src
+  - sbin
+  - share
+- var
+  - cache
+  - lib
+  - local
+  - lock
+  - log
+  - opt
+  - run
+  - spool
+  - tmp
