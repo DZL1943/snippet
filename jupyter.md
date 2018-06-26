@@ -12,6 +12,6 @@ function install_jupyter()
 
     pip install bash_kernel
     python -m bash_kernel.install
-    jupyter notebook --no-browser --allow-root --ip='*' --port=8888 --notebook-dir=/home
+    jupyter notebook --no-browser --allow-root --ip='*' --port=8888 --notebook-dir=/home  # make sure firewalld is stopped
 }
 ```
