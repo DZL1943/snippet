@@ -23,4 +23,4 @@
 3. mkpart primary 2048s 15g  #PART-TYPE is one of: primary, logical, extended
 4. set  #FLAG is one of: boot, root, swap, hidden, raid, lvm, lba, hp-service, palo, prep, msftres, bios_grub, atvrecv, diag, legacy_boot
 5. mkfs -v -t ext4 /dev/sdb1
-6. mount
+6. mount -v -t ext4 /dev/sdb1 /mnt/lfs
