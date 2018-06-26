@@ -1,0 +1,22 @@
+- 7z/bandizip
+- 搜狗输入法
+- chrome/ff
+- office
+- onenote
+- outlook
+- xmind
+- qq/tim
+- 迅雷
+- 火绒
+- potplayer
+- foobar2000
+- npp/vscode
+- vmware
+- calibre
+- ultraiso
+- 小工具
+  - qttabbar
+  - listary
+  - snipaste
+  - rufus
+  - ghost
