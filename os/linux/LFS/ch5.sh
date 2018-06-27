@@ -17,6 +17,7 @@ case $(uname -m) in
   x86_64) mkdir -v /tools/lib && ln -sv lib /tools/lib64 ;;
 esac
 make install
+rm -rf ./*
 popd
 popd
 
@@ -73,6 +74,7 @@ pushd ../gcc-build
     --enable-languages=c,c++
 make
 make install
+rm -rf ./*
 popd
 popd
 
@@ -113,13 +115,12 @@ echo 'main(){}' > dummy.c
 $LFS_TGT-gcc dummy.c
 readelf -l a.out | grep ': /tools'
 rm -v dummy.c a.out
+rm -rf ./*
 popd
 popd
 
 # 5. libstdc++
-# make a new dir
-mkdir -pv libstdcpp-build
-pushd libstdcpp-build
+pushd gcc-build
 ../gcc-4.9.2/libstdc++-v3/configure \
     --host=$LFS_TGT                 \
     --prefix=/tools                 \
@@ -131,11 +132,11 @@ pushd libstdcpp-build
     --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/4.9.2
 make
 make install
+rm -rf ./*
 popd
 
 # 6. binutils-2
-mkdir -pv binutils-build2
-pushd binutils-build2
+pushd binutils-build
 CC=$LFS_TGT-gcc                \
 AR=$LFS_TGT-ar                 \
 RANLIB=$LFS_TGT-ranlib         \
@@ -150,6 +151,7 @@ make install
 make -C ld clean
 make -C ld LIB_PATH=/usr/lib:/lib
 cp -v ld/ld-new /tools/bin
+rm -rf ./*
 popd
 
 # 7. gcc-2
@@ -178,8 +180,7 @@ mv -v gmp-6.0.0 gmp
 tar -xf ../mpc-1.0.2.tar.gz
 mv -v mpc-1.0.2 mpc
 
-mkdir -pv ../gcc-build-2
-pushd ../gcc-build-2
+pushd ../gcc-build
 CC=$LFS_TGT-gcc                                    \
 CXX=$LFS_TGT-g++                                   \
 AR=$LFS_TGT-ar                                     \
@@ -201,6 +202,7 @@ echo 'main(){}' > dummy.c
 cc dummy.c
 readelf -l a.out | grep ': /tools'
 rm -v dummy.c a.out
+rm -rf ./*
 popd
 popd
 
