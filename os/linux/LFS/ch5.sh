@@ -207,5 +207,8 @@ popd
 ###########################################
 tcl expect dejagnu check ncurses bash bzip2 coreutils file findutils gawk gettext grep gzip m4 make patch perl sed tar texinfo util-linux xz
 
+strip --strip-debug /tools/lib/*
+/usr/bin/strip --strip-unneeded /tools/{,s}bin/*
+rm -rf /tools/{,share}/{info,man,doc}
 
 popd
