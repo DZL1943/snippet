@@ -19,7 +19,7 @@ popd
 
 mkdir -pv $LFS/tools
 ln -sv $LFS/tools /  #?
-chmod a+rw /tools
+chmod a+rw -R /tools
 
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
