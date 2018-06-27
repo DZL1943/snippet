@@ -204,47 +204,8 @@ rm -v dummy.c a.out
 popd
 popd
 
-# tcl
-tar -xzvf tcl8.6.3-src.tar.gz
-pushd tcl8.6.3
-cd unix
-./configure --prefix=/tools
-make
-#TZ=UTC make test
-make install
-chmod -v u+w /tools/lib/libtcl8.6.so
-make install-private-headers
-ln -sv tclsh8.6 /tools/bin/tclsh
-popd
+###########################################
+tcl expect dejagnu check ncurses bash bzip2 coreutils file findutils gawk gettext grep gzip m4 make patch perl sed tar texinfo util-linux xz
 
-# expect
-tar -xzvf expect5.45.tar.gz
-pushd expect5.45
-cp -v configure{,.orig}
-sed 's:/usr/local/bin:/bin:' configure.orig > configure
-./configure --prefix=/tools       \
-            --with-tcl=/tools/lib \
-            --with-tclinclude=/tools/include
-make
-#make test
-make SCRIPTS="" install
-popd
-
-# dejagnu
-tar -xzvf dejagnu-1.5.2.tar.gz
-pushd dejagnu-1.5.2
-./configure --prefix=/tools
-make install
-make check
-popd
-
-# check
-tar -xzvf check-0.9.14.tar.gz
-pushd check-0.9.14
-PKG_CONFIG= ./configure --prefix=/tools
-make
-make check
-make install
-popd
 
 popd
