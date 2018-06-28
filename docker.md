@@ -11,6 +11,12 @@ function install_docker()
     yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
     yum -y install docker-ce
     docker -v
+    
+    tee /etc/docker/daemon.json <<EOF
+{
+    "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+EOF
 }
 ```
 
