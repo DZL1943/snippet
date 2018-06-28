@@ -1,1 +1,8 @@
 
+参考 "linux内核0.11完全注释" 图 3-1
+
+1. 引导扇区由BIOS加载到0x7c00
+2. bootsect.S
+3. setup.S
+4. head.S
+5. /init/main.c  参考 图 4-2
