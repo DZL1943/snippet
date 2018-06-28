@@ -12,6 +12,7 @@ function install_docker()
     yum -y install docker-ce
     docker -v
     
+    #https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
     tee /etc/docker/daemon.json <<EOF
 {
     "registry-mirrors": ["https://registry.docker-cn.com"]
