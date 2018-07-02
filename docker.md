@@ -42,12 +42,15 @@ EOF
 ## 原理
 ### namespace
 
-- PID
-- Network
-- UTS
-- Mount
-- IPC
-- User
+```
+- Cgroup      CLONE_NEWCGROUP   Cgroup root directory (since Linux 4.6)
+- IPC         CLONE_NEWIPC      System V IPC, POSIX message queues (since Linux 2.6.19)
+- Network     CLONE_NEWNET      Network devices, stacks, ports, etc. (since Linux 2.6.24)
+- Mount       CLONE_NEWNS       Mount points (since Linux 2.4.19)
+- PID         CLONE_NEWPID      Process IDs (since Linux 2.6.24)
+- User        CLONE_NEWUSER     User and group IDs (started in Linux 2.6.23 and completed in Linux 3.8)
+- UTS         CLONE_NEWUTS      Hostname and NIS domain name (since Linux 2.6.19)
+```
 
 ### cgroups
 
