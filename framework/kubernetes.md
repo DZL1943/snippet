@@ -10,6 +10,8 @@
 
 ### kubernetes-node
 
+service - pod - container - node
+
 - kube-proxy
 - kubelet
 
