@@ -1,4 +1,5 @@
 # docker
+https://github.com/moby/moby
 
 ## 安装
 
@@ -22,6 +23,21 @@ EOF
 ```
 
 ## 架构
+### docker CLI
+
+- container   Manage containers
+- image       Manage images
+- network     Manage networks
+- node        Manage Swarm nodes
+- plugin      Manage plugins
+- secret      Manage Docker secrets
+- service     Manage services
+- stack       Manage Docker stacks
+- swarm       Manage Swarm
+- system      Manage Docker
+- volume      Manage volumes
+
+### docker daemon
 
 ## 原理
 ### namespace
@@ -52,19 +68,8 @@ EOF
 ### UnionFS
 ### chroot
 
-
-## CLI
-
-## image
-### dockerfile
-### registry
-
-## container
-
-## network
-
-## volume
-
 ## 生态
 ### Machine Compose Swarm
 ### kubernetes
+### coreos
+### rancher
