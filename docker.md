@@ -50,6 +50,8 @@ EOF
 - PID         CLONE_NEWPID      Process IDs (since Linux 2.6.24)
 - User        CLONE_NEWUSER     User and group IDs (started in Linux 2.6.23 and completed in Linux 3.8)
 - UTS         CLONE_NEWUTS      Hostname and NIS domain name (since Linux 2.6.19)
+
+内核结构: nsproxy
 ```
 
 ### cgroups
