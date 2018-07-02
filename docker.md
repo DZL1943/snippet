@@ -25,17 +25,17 @@ EOF
 ## 架构
 ### docker CLI
 
-- container   Manage containers
-- image       Manage images
-- network     Manage networks
-- node        Manage Swarm nodes
-- plugin      Manage plugins
-- secret      Manage Docker secrets
-- service     Manage services
-- stack       Manage Docker stacks
-- swarm       Manage Swarm
-- system      Manage Docker
-- volume      Manage volumes
+- container
+- image
+- network
+- node
+- plugin
+- secret
+- service
+- stack
+- swarm
+- system
+- volume
 
 ### docker daemon
 
