@@ -8,6 +8,7 @@ docker本身主要包含docker CLI和docker daemon两部分, 它代表着一种�
 docker 有何作用?
 - 轻量虚拟化
 - 更易于交付和运维的打包格式
+- 作为基础设施架构的一部分
 ```
 
 ## 安装
