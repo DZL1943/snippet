@@ -1,5 +1,14 @@
 # docker
+
+```
 https://github.com/moby/moby
+docker 是什么?
+docker本身主要包含docker CLI和docker daemon两部分, 它代表着一种基于linux kernel功能的轻量虚拟化技术, 其虚拟化的产物称为容器, 和虚拟机不同, 容器虚拟化的粒度是进程级的, 并且所有容器共享同一个宿主机内核, 容器由镜像运行产生, 镜像是基于共享文件系统包含所有运行依赖的一种打包文件格式, 可通过build dockerfile 从registry拉取 docker-commit获得.
+
+docker 有何作用?
+- 轻量虚拟化
+- 更易于交付和运维的打包格式
+```
 
 ## 安装
 
