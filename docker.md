@@ -77,4 +77,5 @@ EOF
 ### Machine Compose Swarm
 ### kubernetes
 ### coreos
+### alpine
 ### rancher
