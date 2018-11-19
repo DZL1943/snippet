@@ -4,21 +4,46 @@
 
 ## 动机和目的
 
-- 了解Linux启动过程
-- 了解进程、线程机制
-- 了解系统调用、链接、加载、库
+- 了解 Linux 启动过程、liveCD 原理
+- 了解进程、线程、协程原理，以及进程组、作业、会话、终端、daemon
+- 了解系统调用、链接、加载、库、包、依赖关系
 - 了解内核以外的一堆东西
-- 了解docker实现原理以及container os
+- 了解 docker、container os 原理
+
+## 原理
 
 ## 概述
+
+1. 准备宿主系统，创建分区和目录，下载软件包，添加用户以及设置环境变量
+2. 使用宿主系统工具链编译 binutils 第一遍
+3. 编译gcc第一遍，使用刚才生成的链接器
+4. 安装内核头文件（glibc需要）
+5. 用 /tools 里面的交叉链接器和交叉编译器交叉编译自己（glibc）
+6. libstdc++
+7. binutils第二遍（这次不用宿主的）
+8. gcc第二遍
+9. 其它1.tcl/expect/dejagnu/check/ncurses/bash/bzip2/coreutils/diffutils/file/findutils/gawk/gettext/grep/gzip/m4/make/patch/perl/sed/tar/texinfo/util1.linux/xz)
+10. chroot
+11. 内核头文件
+12. man-pages
+13. glibc
+14. 调整工具链，让新编译的程序链接到这些新的库上
+15. 1.lib/file/binutils/gmp/mpfr/mpc/gcc/bzip2/pkg-config/ncurses/attr/acl/libcap/sed/shadow/psmisc/procps-ng/e2fsprogs/coreutils/iana-etc/m4/flex/1.ison/grep/readline/bash/bc/libtool/gdbm/expat/inetutils/perl/XML-Parser/autoconf/automake/diffutils/gawk/findutils/gettext/intltool/gperf/gro1.f/xz/grub/less/gzip/iproute2/kbd/kmod/libpipeline/make/patch/systemd/dbus/util-linux/man-db/tar/texinfo/vim
+16. 基本系统配置（network udev symlinks clock console locale inputrc shells systemd）
+17. fstab kernel grub
+18. reboot
 
 ## 注意事项
 
 - 环境变量
 - 权限
 - 报错和遗漏
-- 前期不需要 fstab，但要保证 mount
+- 前期不需要 fstab，但要保证 mount（甚至在chroot之前分区意义不大）
 - 前期不需要 patch
+- 为缩减时长可跳过测试（尤其是gcc）
+- 建议跟踪记录每次编译后对文件系统的改动
+
+## 预备知识
 
 ## 宿主机要求
 
@@ -126,7 +151,7 @@ md5sum -c md5sums
 popd
 
 mkdir -v $LFS/tools
-ln -sv $LFS/tools /
+ln -sv $LFS/tools /  # ?
 
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
@@ -185,7 +210,7 @@ make install
 popd
 popd
 rm -rf binutils-$version binutils-build
-
+# -> bin（x86_64-lfs-linux-gnu-*）  lib（空的）  lib64（指向lib）  share  x86_64-lfs-linux-gnu/{bin,lib}
 # gcc-1
 version=4.9.2
 tar -xjvf gcc-$version.tar.bz2
@@ -196,7 +221,7 @@ tar -xf ../gmp-6.0.0a.tar.xz
 mv -v gmp-6.0.0 gmp
 tar -xf ../mpc-1.0.2.tar.gz
 mv -v mpc-1.0.2 mpc
-
+# 修改 GCC 默认的动态链接器为安装在 /tools 文件夹中的。从 GCC 的 include 搜索路径中移除 /usr/include
 for file in \
  $(find gcc/config -name linux64.h -o -name linux.h -o -name sysv4.h)
 do
@@ -240,7 +265,10 @@ make && make install
 popd
 popd
 rm -rf gcc-$version gcc-build
-
+# - bin目录增加gcc文件
+# - 增加空的include目录
+# - lib目录增加gcc/x86_64-lfs-linux-gnu/4.9.2目录（主要是.h文件）
+# - 增加libexec/gcc/x86_64-lfs-linux-gnu/4.9.2目录
 # linux api header
 version=3.19
 tar -xf linux-$version.tar.xz
@@ -250,7 +278,7 @@ make INSTALL_HDR_PATH=dest headers_install
 cp -rv dest/include/* /tools/include
 popd
 rm -rf linux-$version
-
+# 显然在include目录增加了内核头文件
 # glibc-1
 version=2.21
 tar -xf glibc-$version.tar.xz
@@ -264,6 +292,7 @@ sed -e '/ia32/s/^/1:/' \
     -i  sysdeps/i386/i686/multiarch/mempcpy_chk.S
 mkdir -v ../glibc-build
 pushd ../glibc-build
+# 用 /tools 里面的交叉链接器和交叉编译器交叉编译自己
 ../glibc-$version/configure                             \
       --prefix=/tools                               \
       --host=$LFS_TGT                               \
@@ -284,7 +313,11 @@ rm -v dummy.c a.out
 popd
 popd
 rm -rf glibc-$version glibc-build
-
+# - bin目录增加了一些东西
+# - 增加etc目录
+# - lib目录增加了一些东西（主要是.so .a）
+# - 增加sbin目录
+# - 增加var目录
 # libstdc++  从属于 gcc
 version=4.9.2
 tar -xjvf gcc-$version.tar.bz2
@@ -321,7 +354,7 @@ RANLIB=$LFS_TGT-ranlib         \
     --with-lib-path=/tools/lib \
     --with-sysroot
 make && make install
-
+# 为下一章的“再调整”阶段准备链接器
 make -C ld clean
 make -C ld LIB_PATH=/usr/lib:/lib
 cp -v ld/ld-new /tools/bin
@@ -730,7 +763,9 @@ chroot "$LFS" /tools/bin/env -i \
     PS1='\u:\w\$ '              \
     PATH=/bin:/usr/bin:/sbin:/usr/sbin:/tools/bin \
     /tools/bin/bash --login +h
-
+# 从这里以后，就不再需要 LFS 变量了
+# 注意 /tools/bin 放在了 PATH 变量的最后。意思是在每个软件的最后版本编译安装好后就不再使用临时工具了
+# 本章从这以后的命令，以及后续章节里的命令都要在 chroot 环境下运行
 mkdir -pv /{bin,boot,etc/{opt,sysconfig},home,lib/firmware,mnt,opt}
 mkdir -pv /{media/{floppy,cdrom},sbin,srv,var}
 install -dv -m 0750 /root
@@ -1416,7 +1451,7 @@ make install
 unset BUILD_ZLIB BUILD_BZIP2
 popd; rm -rf $pkg
 
-pkg=XML::Parser-2.44
+pkg=XML-Parser-2.44
 tar -xzvf $pkg.tar.gz
 pushd $pkg
 perl Makefile.PL
